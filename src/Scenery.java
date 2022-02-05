@@ -40,6 +40,10 @@ public class Scenery {
         displayWorld();
         foundSpring();
         floodTheValley();
+        floodTheValley();
+        floodTheValley();
+        floodTheValley();
+
     }
 
     private void foundSpring() {
@@ -63,41 +67,49 @@ public class Scenery {
     }
 
     private void floodTheValley() {
+
         int elevation;
-        boolean change = false;
+        boolean change = true;
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-
-                elevation = world[i][j];
-                if (elevation < 0) {
-                    // change = checkEveryNeighboursIsBigger(elevation, i, j);
-                    // if (!change) {
-                    // change =
-                    checkEqualNeighbours(elevation, i, j);
-                    // }
-                    // TODÚÚÚ if STILL (!change) than OVERFLOW
-                }
-                // if (!change)
-                nextWorld[i][j] = elevation;
-            } // j
-        } // i
-        world = nextWorld;
-        displayWorld();
-
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                change = false;
-                elevation = world[i][j];
-                if (elevation < 0) {
-                    change = checkEveryNeighboursIsBigger(elevation, i, j);
-                }
-                if (!change)
+        while (change) {
+            change = false;
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    elevation = world[i][j];
+                    if (elevation < 0) {
+                        change = checkEqualNeighbours(elevation, i, j);
+                    }
                     nextWorld[i][j] = elevation;
+                } // j
+            } // i
+            world = nextWorld;
+            displayWorld();
+        }
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                elevation = world[i][j];
+                if (elevation < 0) {
+                    world[i][j] -= 1;
+                }
             } // j
         } // i
-        world = nextWorld;
+
         displayWorld();
+
+        // for (int i = 0; i < size; i++) {
+        // for (int j = 0; j < size; j++) {
+        // change = false;
+        // elevation = world[i][j];
+        // if (elevation < 0) {
+        // change = checkEveryNeighboursIsBigger(elevation, i, j);
+        // }
+        // if (!change)
+        // nextWorld[i][j] = elevation;
+        // } // j
+        // } // i
+        // world = nextWorld;
+        // displayWorld();
 
     }
 
