@@ -39,9 +39,22 @@ public class Scenery {
     public void foundSpring() {
         int smallestTerain = Collections.min(mapTiles.keySet());
         int numberOfsmallestTerrain = mapTiles.get(smallestTerain);
-        numberOfsmallestTerrain = getRandomNumber(1, numberOfsmallestTerrain);
+        int actualSpringNumber = getRandomNumber(0, numberOfsmallestTerrain);
+        int count = 0;
+        System.out.println(smallestTerain + " " + numberOfsmallestTerrain + " " + actualSpringNumber);
 
-        // world[0][0] = -world[0][0];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (world[i][j] == smallestTerain) {
+                    count++;
+                    if (count >= actualSpringNumber) {
+                        world[i][j] = -world[i][j];
+                        break;
+                    }
+                }
+            } // j
+        } // i
+
         displayWorld();
     }
 
@@ -57,9 +70,9 @@ public class Scenery {
                 if (geoData > 0)
                     System.out.print(" ");
                 System.out.print(geoData);
-            }
+            } // j
             System.out.println();
-        }
+        } // i
         System.out.println();
     }
 
