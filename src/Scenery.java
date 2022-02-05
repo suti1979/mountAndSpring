@@ -18,7 +18,6 @@ public class Scenery {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 random = getRandomNumber(-2, 1);
-
                 elevation += random;
                 if (elevation < 1)
                     elevation = 1;
@@ -33,13 +32,17 @@ public class Scenery {
                 } else {
                     mapTiles.put(elevation, mapTiles.get(elevation) + 1);
                 }
-
             } // j
         } // i
-        displayWorld();
     }
 
-    public void foundSpring() {
+    public void runTheSimulation() {
+        displayWorld();
+        foundSpring();
+        floodTheValley();
+    }
+
+    private void foundSpring() {
         int smallestTerain = Collections.min(mapTiles.keySet());
         int numberOfsmallestTerrain = mapTiles.get(smallestTerain);
         int actualSpringNumber = getRandomNumber(0, numberOfsmallestTerrain);
@@ -56,23 +59,38 @@ public class Scenery {
                 }
             } // j
         } // i
-
         displayWorld();
     }
 
-    public void floodTheValley() {
+    private void floodTheValley() {
         int elevation;
-        boolean change;
+        boolean change = false;
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+
+                elevation = world[i][j];
+                if (elevation < 0) {
+                    // change = checkEveryNeighboursIsBigger(elevation, i, j);
+                    // if (!change) {
+                    // change =
+                    checkEqualNeighbours(elevation, i, j);
+                    // }
+                    // TODÚÚÚ if STILL (!change) than OVERFLOW
+                }
+                // if (!change)
+                nextWorld[i][j] = elevation;
+            } // j
+        } // i
+        world = nextWorld;
+        displayWorld();
+
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 change = false;
                 elevation = world[i][j];
                 if (elevation < 0) {
-                    // change = checkEveryNeighboursIsBigger(elevation, i, j);
-                    // if (!change) {
-                    change = checkEqualNeighbours(elevation, i, j);
-                    // }
-                    // TODÚÚÚ if STILL (!change) than OVERFLOW
+                    change = checkEveryNeighboursIsBigger(elevation, i, j);
                 }
                 if (!change)
                     nextWorld[i][j] = elevation;
@@ -80,32 +98,28 @@ public class Scenery {
         } // i
         world = nextWorld;
         displayWorld();
+
     }
 
     private boolean checkEqualNeighbours(int elevation, int i, int j) {
         boolean check = false;
 
         if (i - 1 >= 0 && elevation == -world[i - 1][j]) {
-
             nextWorld[i - 1][j] = elevation;
             check = true;
         }
 
         if (j + 1 < size && elevation == -world[i][j + 1]) {
-
-            nextWorld[i][j + 1] = elevation;
-
+            world[i][j + 1] = elevation;
             check = true;
         }
 
         if (i + 1 < size && elevation == -world[i + 1][j]) {
-
-            nextWorld[i + 1][j] = elevation;
+            world[i + 1][j] = elevation;
             check = true;
         }
 
         if (j - 1 >= 0 && elevation == -world[i][j - 1]) {
-
             nextWorld[i][j - 1] = elevation;
             check = true;
         }
@@ -151,22 +165,4 @@ public class Scenery {
     private int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max + 1 - min)) + min);
     }
-
 }
-
-/*
- * bug
- * 2 2 1 1 1 1
- * 2 2 2 1 1 1
- * 1 1 1 1-1 1
- * 1 1 2 3 4 5
- * 4 3 3 3 2 2
- * 3 3 4 5 5 6
- * 
- * 2 2 1 1 1 1
- * 2 2 2 1-1 1
- * 1 1 1-10 1
- * 1 1 2 3 4 5
- * 4 3 3 3 2 2
- * 3 3 4 5 5 6
- */
