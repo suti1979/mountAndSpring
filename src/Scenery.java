@@ -43,13 +43,13 @@ public class Scenery {
         int count = 0;
         System.out.println(smallestTerain + " " + numberOfsmallestTerrain + " " + actualSpringNumber);
 
-        for (int i = 0; i < size; i++) {
+        leak: for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (world[i][j] == smallestTerain) {
                     count++;
                     if (count >= actualSpringNumber) {
                         world[i][j] = -world[i][j];
-                        break;
+                        break leak;
                     }
                 }
             } // j
