@@ -4,12 +4,14 @@ import java.util.Map;
 
 public class Scenery {
     private int[][] world;
+    private int[][] nextWorld;
     private int size;
     private Map<Integer, Integer> mapTiles = new HashMap<>();
 
     public Scenery(int n) {
         size = n;
         world = new int[n][n];
+        nextWorld = new int[n][n];
         int elevation = n / 2;
         int random;
 
@@ -60,20 +62,53 @@ public class Scenery {
 
     public void floodTheValley() {
         int elevation;
+        boolean change;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
+                change = false;
                 elevation = world[i][j];
                 if (elevation < 0) {
-                    checkEveryNeighboursIsBigger(elevation, i, j);
+                    change = checkEveryNeighboursIsBigger(elevation, i, j);
+                    if (!change) {
+                        change = checkEqualNeighbours(elevation, i, j);
+                    }
+                    // TODÚÚÚ if STILL (!change) than OVERFLOW
                 }
-
+                if (!change)
+                    nextWorld[i][j] = elevation;
             } // j
         } // i
-
+        world = nextWorld;
         displayWorld();
     }
 
-    private void checkEveryNeighboursIsBigger(int elevation, int i, int j) {
+    private boolean checkEqualNeighbours(int elevation, int i, int j) {
+        boolean check = false;
+        System.out.println(elevation);
+        if (i - 1 >= 0 && Math.abs(elevation) == world[i - 1][j]) {
+            nextWorld[i - 1][j] = elevation;
+            check = true;
+        }
+
+        if (j + 1 < size && Math.abs(elevation) == world[i][j + 1]) {
+            nextWorld[i][j + 1] = elevation;
+            check = true;
+        }
+
+        if (i + 1 < size && Math.abs(elevation) == world[i + 1][j]) {
+            nextWorld[i + 1][j] = elevation;
+            check = true;
+        }
+
+        if (j - 1 >= 0 && Math.abs(elevation) == world[i][j - 1]) {
+            nextWorld[i][j - 1] = elevation;
+            check = true;
+        }
+
+        return check;
+    }
+
+    private boolean checkEveryNeighboursIsBigger(int elevation, int i, int j) {
         boolean check = true;
 
         if (i - 1 >= 0 && Math.abs(elevation) >= Math.abs(world[i - 1][j]))
@@ -89,8 +124,9 @@ public class Scenery {
             check = false;
 
         if (check)
-            world[i][j] -= 1;
+            nextWorld[i][j] = world[i][j] - 1;
 
+        return check;
     }
 
     private void displayWorld() {
