@@ -34,6 +34,7 @@ public class Scenery {
 
             } // j
         } // i
+        displayWorld();
     }
 
     public void foundSpring() {
@@ -41,7 +42,6 @@ public class Scenery {
         int numberOfsmallestTerrain = mapTiles.get(smallestTerain);
         int actualSpringNumber = getRandomNumber(0, numberOfsmallestTerrain);
         int count = 0;
-        System.out.println(smallestTerain + " " + numberOfsmallestTerrain + " " + actualSpringNumber);
 
         leak: for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -64,7 +64,7 @@ public class Scenery {
             for (int j = 0; j < size; j++) {
                 elevation = world[i][j];
                 if (elevation < 0) {
-                    checkEveryNeighboursBigger(elevation, i, j);
+                    checkEveryNeighboursIsBigger(elevation, i, j);
                 }
 
             } // j
@@ -73,36 +73,27 @@ public class Scenery {
         displayWorld();
     }
 
-    private void checkEveryNeighboursBigger(int elevation, int i, int j) {
-
+    private void checkEveryNeighboursIsBigger(int elevation, int i, int j) {
         boolean check = true;
 
-        if (i - 1 >= 0) {
-            if (Math.abs(elevation) >= Math.abs(world[i - 1][j]))
-                check = false;
-        }
+        if (i - 1 >= 0 && Math.abs(elevation) >= Math.abs(world[i - 1][j]))
+            check = false;
 
-        if (j + 1 < size) {
-            if (Math.abs(elevation) >= Math.abs(world[i][j + 1]))
-                check = false;
-        }
+        if (j + 1 < size && Math.abs(elevation) >= Math.abs(world[i][j + 1]))
+            check = false;
 
-        if (i + 1 < size) {
-            if (Math.abs(elevation) >= Math.abs(world[i + 1][j]))
-                check = false;
-        }
+        if (i + 1 < size && Math.abs(elevation) >= Math.abs(world[i + 1][j]))
+            check = false;
 
-        if (j - 1 >= 0) {
-            if (Math.abs(elevation) >= Math.abs(world[i][j - 1]))
-                check = false;
-        }
+        if (j - 1 >= 0 && Math.abs(elevation) >= Math.abs(world[i][j - 1]))
+            check = false;
 
         if (check)
             world[i][j] -= 1;
 
     }
 
-    public void displayWorld() {
+    private void displayWorld() {
         int geoData;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
