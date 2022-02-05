@@ -10,27 +10,37 @@ public class Scenery {
     public Scenery(int n) {
         size = n;
         world = new int[n][n];
-        int actualTile;
+        int elevation = n / 2;
+        int random;
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                actualTile = getRandomNumber(1, 4);
-                world[i][j] = actualTile;
+                random = getRandomNumber(-2, 1);
 
-                if (!mapTiles.containsKey(actualTile)) {
-                    mapTiles.put(actualTile, 1);
+                elevation += random;
+                if (elevation < 1)
+                    elevation = 1;
+
+                if (elevation > n)
+                    elevation = n;
+
+                world[i][j] = elevation;
+
+                if (!mapTiles.containsKey(elevation)) {
+                    mapTiles.put(elevation, 1);
                 } else {
-                    mapTiles.put(actualTile, mapTiles.get(actualTile) + 1);
+                    mapTiles.put(elevation, mapTiles.get(elevation) + 1);
                 }
 
-            }
-        }
+            } // j
+        } // i
     }
 
     public void foundSpring() {
         int smallestTerain = Collections.min(mapTiles.keySet());
         int numberOfsmallestTerrain = mapTiles.get(smallestTerain);
         numberOfsmallestTerrain = getRandomNumber(1, numberOfsmallestTerrain);
+
         // world[0][0] = -world[0][0];
         displayWorld();
     }
