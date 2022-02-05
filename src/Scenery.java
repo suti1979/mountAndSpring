@@ -59,7 +59,47 @@ public class Scenery {
     }
 
     public void floodTheValley() {
+        int elevation;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                elevation = world[i][j];
+                if (elevation < 0) {
+                    checkEveryNeighboursBigger(elevation, i, j);
+                }
+
+            } // j
+        } // i
+
         displayWorld();
+    }
+
+    private void checkEveryNeighboursBigger(int elevation, int i, int j) {
+
+        boolean check = true;
+
+        if (i - 1 >= 0) {
+            if (Math.abs(elevation) >= Math.abs(world[i - 1][j]))
+                check = false;
+        }
+
+        if (j + 1 < size) {
+            if (Math.abs(elevation) >= Math.abs(world[i][j + 1]))
+                check = false;
+        }
+
+        if (i + 1 < size) {
+            if (Math.abs(elevation) >= Math.abs(world[i + 1][j]))
+                check = false;
+        }
+
+        if (j - 1 >= 0) {
+            if (Math.abs(elevation) >= Math.abs(world[i][j - 1]))
+                check = false;
+        }
+
+        if (check)
+            world[i][j] -= 1;
+
     }
 
     public void displayWorld() {

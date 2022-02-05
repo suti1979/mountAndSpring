@@ -13,6 +13,6 @@
 hs_err_pid*
 
 # 4 vscode
-.vscode
-bin
-lib
+#.vscode
+#bin
+#lib
