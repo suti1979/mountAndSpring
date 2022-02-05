@@ -68,11 +68,10 @@ public class Scenery {
                 change = false;
                 elevation = world[i][j];
                 if (elevation < 0) {
-                    change = checkEveryNeighboursIsBigger(elevation, i, j);
-                    if (!change) {
-                        System.out.println("not bigger");
-                        change = checkEqualNeighbours(elevation, i, j);
-                    }
+                    // change = checkEveryNeighboursIsBigger(elevation, i, j);
+                    // if (!change) {
+                    change = checkEqualNeighbours(elevation, i, j);
+                    // }
                     // TODÚÚÚ if STILL (!change) than OVERFLOW
                 }
                 if (!change)
@@ -86,25 +85,26 @@ public class Scenery {
     private boolean checkEqualNeighbours(int elevation, int i, int j) {
         boolean check = false;
 
-        if (i - 1 >= 0 && Math.abs(elevation) == world[i - 1][j]) {
+        if (i - 1 >= 0 && elevation == -world[i - 1][j]) {
 
             nextWorld[i - 1][j] = elevation;
             check = true;
         }
 
-        if (j + 1 < size && Math.abs(elevation) == world[i][j + 1]) {
+        if (j + 1 < size && elevation == -world[i][j + 1]) {
 
             nextWorld[i][j + 1] = elevation;
+
             check = true;
         }
 
-        if (i + 1 < size && Math.abs(elevation) == world[i + 1][j]) {
+        if (i + 1 < size && elevation == -world[i + 1][j]) {
 
             nextWorld[i + 1][j] = elevation;
             check = true;
         }
 
-        if (j - 1 >= 0 && Math.abs(elevation) == world[i][j - 1]) {
+        if (j - 1 >= 0 && elevation == -world[i][j - 1]) {
 
             nextWorld[i][j - 1] = elevation;
             check = true;
@@ -153,3 +153,20 @@ public class Scenery {
     }
 
 }
+
+/*
+ * bug
+ * 2 2 1 1 1 1
+ * 2 2 2 1 1 1
+ * 1 1 1 1-1 1
+ * 1 1 2 3 4 5
+ * 4 3 3 3 2 2
+ * 3 3 4 5 5 6
+ * 
+ * 2 2 1 1 1 1
+ * 2 2 2 1-1 1
+ * 1 1 1-10 1
+ * 1 1 2 3 4 5
+ * 4 3 3 3 2 2
+ * 3 3 4 5 5 6
+ */
