@@ -3,15 +3,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Scenery {
-    private int[][] world;// = { { -1, 2, 3, 4 }, { 2, 3, 4, 4 }, { 3, 3, 3, 3 }, { 2, 1, 2, 3 } };
-    // private int[][] nextWorld;
+    private int[][] world;
     private int size;
     private Map<Integer, Integer> mapTiles = new HashMap<>();
+    private int biggestTerrain;
 
     public Scenery(int n) {
         size = n;
         world = new int[n][n];
-        // nextWorld = new int[n][n];
         int elevation = n / 2;
         int random;
 
@@ -34,17 +33,13 @@ public class Scenery {
                 }
             } // j
         } // i
-
+        biggestTerrain = Collections.max(mapTiles.keySet());
     }
 
     public void runTheSimulation() {
         displayWorld();
         foundSpring();
         floodTheValley();
-        floodTheValley();
-        floodTheValley();
-        floodTheValley();
-
     }
 
     private void floodTheValley() {
@@ -63,17 +58,17 @@ public class Scenery {
                 continue;
             }
 
-            if (!check) {
-                increaseWaterLevel();
-                displayWorld();
+            if (checkMaxLevel())
                 break;
-            }
-        }
 
+            increaseWaterLevel();
+            displayWorld();
+
+            check = true;
+        }
     }
 
     private boolean checkSmallerNumber() {
-        // System.out.println("sm");
         int actualNumber;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -119,7 +114,6 @@ public class Scenery {
     }
 
     private boolean checkEqualNumbers() {
-        // System.out.println("eq");
         int elevation;
         boolean find = false;
         boolean change = false;
@@ -129,13 +123,8 @@ public class Scenery {
                 change = checkEqualNeighbours(elevation, i, j);
                 if (change)
                     find = true;
-
-                // if (!change)
-                // world[i][j] = elevation;
             } // j
         } // i
-          // if (find)
-          // displayWorld();
 
         return find;
     }
@@ -157,18 +146,17 @@ public class Scenery {
         }
 
         return check;
-
     }
 
     private void foundSpring() {
-        int smallestTerain = Collections.min(mapTiles.keySet());
-        int numberOfsmallestTerrain = mapTiles.get(smallestTerain);
+        int smallestTerrain = Collections.min(mapTiles.keySet());
+        int numberOfsmallestTerrain = mapTiles.get(smallestTerrain);
         int actualSpringNumber = getRandomNumber(0, numberOfsmallestTerrain);
         int count = 0;
 
         leak: for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (world[i][j] == smallestTerain) {
+                if (world[i][j] == smallestTerrain) {
                     count++;
                     if (count >= actualSpringNumber) {
                         world[i][j] = -world[i][j];
@@ -182,7 +170,6 @@ public class Scenery {
     }
 
     private void increaseWaterLevel() {
-        // System.out.println("inc");
         int elevation;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -193,6 +180,17 @@ public class Scenery {
             } // j
         } // i
 
+    }
+
+    private boolean checkMaxLevel() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (world[i][j] != -biggestTerrain) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private int getRandomNumber(int min, int max) {
