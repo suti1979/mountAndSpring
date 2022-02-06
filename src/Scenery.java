@@ -4,14 +4,14 @@ import java.util.Map;
 
 public class Scenery {
     private int[][] world;
-    // private int[][] nextWorld;
+    private int[][] nextWorld;
     private int size;
     private Map<Integer, Integer> mapTiles = new HashMap<>();
 
     public Scenery(int n) {
         size = n;
         world = new int[n][n];
-        // nextWorld = new int[n][n];
+        nextWorld = new int[n][n];
         int elevation = n / 2;
         int random;
 
@@ -39,12 +39,6 @@ public class Scenery {
     public void runTheSimulation() {
         displayWorld();
         foundSpring();
-        floodTheValley();
-        floodTheValley();
-        floodTheValley();
-        floodTheValley();
-        floodTheValley();
-        floodTheValley();
     }
 
     private void foundSpring() {
@@ -64,95 +58,11 @@ public class Scenery {
                 }
             } // j
         } // i
+
         displayWorld();
     }
 
-    private void floodTheValley() {
-
-        checkEveryNeighboursIsBigger();
-
-        int elevation;
-        boolean loop = true;
-        boolean change = false;
-
-        while (loop) {
-            loop = false;
-            System.out.println("norm");
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size; j++) {
-
-                    elevation = world[i][j];
-
-                    change = checkEqualNeighbours(elevation, i, j);
-                    if (change)
-                        loop = true;
-
-                    if (!change)
-                        world[i][j] = elevation;
-                } // j
-            } // i
-            if (loop)
-                displayWorld();
-        } // while
-
-        incWaterLevel();
-
-    }
-
-    private boolean checkEqualNeighbours(int elevation, int i, int j) {
-        boolean check = false;
-        int num = 0 - Math.abs(elevation);
-
-        if (i - 1 >= 0 && elevation + world[i - 1][j] == 0) {
-            world[i - 1][j] = num;
-            world[i][j] = num;
-            check = true;
-        }
-
-        if (j - 1 >= 0 && elevation == -world[i][j - 1]) {
-            world[i][j - 1] = num;
-            world[i][j] = num;
-            check = true;
-        }
-
-        return check;
-
-    }
-
-    private void checkEveryNeighboursIsBigger() {
-        boolean check = true;
-        int elevation;
-
-        while (check) {
-            System.out.println("big");
-            check = false;
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size; j++) {
-                    elevation = world[i][j];
-
-                    if (elevation < 0) {
-                        if (i - 1 >= 0 && Math.abs(elevation) > Math.abs(world[i - 1][j])) {
-
-                            world[i - 1][j] = 0 - Math.abs(world[i - 1][j]) - 1;
-                            check = true;
-                        }
-
-                        if (j - 1 >= 1 && Math.abs(elevation) > Math.abs(world[i][j - 1])) {
-
-                            world[i][j - 1] = 0 - Math.abs(world[i][j - 1]) - 1;
-                            check = true;
-                        }
-                    } // (elevation < 0)
-                } // j
-            } // i
-            if (check)
-                displayWorld();
-        } // while
-
-    }
-
-    private void incWaterLevel() {
-        System.out.println("inc");
+    private void increaseWaterLevel() {
         int elevation;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -182,21 +92,4 @@ public class Scenery {
         } // i
         System.out.println();
     }
-
 }
-
-// displayWorld();
-
-// for (int i = 0; i < size; i++) {
-// for (int j = 0; j < size; j++) {
-// change = false;
-// elevation = world[i][j];
-// if (elevation < 0) {
-// change = checkEveryNeighboursIsBigger(elevation, i, j);
-// }
-// if (!change)
-// nextWorld[i][j] = elevation;
-// } // j
-// } // i
-// world = nextWorld;
-// displayWorld();
