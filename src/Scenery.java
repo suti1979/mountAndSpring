@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,10 @@ public class Scenery {
     private Map<Integer, Integer> mapTiles = new HashMap<>();
     private int biggestTerrain;
 
+    public ArrayList<StoreWorlds> worlds;
+
     public Scenery(int n) {
+        worlds = new ArrayList<StoreWorlds>();
         size = n;
         world = new int[n][n];
         int elevation = n / 2;
@@ -179,7 +183,6 @@ public class Scenery {
                 }
             } // j
         } // i
-
     }
 
     private boolean checkMaxLevel() {
@@ -198,6 +201,15 @@ public class Scenery {
     }
 
     private void displayWorld() {
+
+        // StoreWorlds temp = new StoreWorlds();
+        // temp.setWorld(world);
+
+        // worlds.add(temp);
+
+        // System.out.println(
+        //         worlds.size() - 1 + ". " + worlds.get(0).getWorld()[0][0]);
+
         int geoData;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) {
-        //Scenery scenery = new Scenery(6);
+        //Scenery scenery = new Scenery(4);
         //scenery.runTheSimulation();
 
         // testing with dummy data
@@ -13,11 +13,19 @@ public class App {
         9, 2 }, { 2, -2, 2, 3, 1 },
         { 2, 1, 2, 3, 2 } };
 
-        ArrayList<StoreWorlds> worlds = new ArrayList<>();
-            worlds.add(new StoreWorlds(world));
-            worlds.add(new StoreWorlds(world2));
+        ArrayList<int[][]> worlds = new ArrayList<>();
+          
+            
+            worlds.add(world);
 
-        new WindowApp(worlds);
+            world[0][0] = 9;
+
+            worlds.add(world);
+
+            System.out.println(worlds.get(0)[0][0]);
+            System.out.println(worlds.get(1)[0][0]);
+
+        //new WindowApp(worlds);
         
     }
 }
