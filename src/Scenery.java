@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,10 +10,10 @@ public class Scenery {
     private Map<Integer, Integer> mapTiles = new HashMap<>();
     private int biggestTerrain;
 
-    public ArrayList<StoreWorlds> worlds;
+    public ArrayList<int[][]> worlds;
 
     public Scenery(int n) {
-        worlds = new ArrayList<StoreWorlds>();
+        worlds = new ArrayList<>();
         size = n;
         world = new int[n][n];
         int elevation = n / 2;
@@ -196,19 +197,8 @@ public class Scenery {
         return true;
     }
 
-    private int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max + 1 - min)) + min);
-    }
-
     private void displayWorld() {
-
-        // StoreWorlds temp = new StoreWorlds();
-        // temp.setWorld(world);
-
-        // worlds.add(temp);
-
-        // System.out.println(
-        //         worlds.size() - 1 + ". " + worlds.get(0).getWorld()[0][0]);
+        worlds.add(deepCopy(world));
 
         int geoData;
         for (int i = 0; i < size; i++) {
@@ -221,5 +211,21 @@ public class Scenery {
             System.out.println();
         } // i
         System.out.println();
+    }
+
+    private int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max + 1 - min)) + min);
+    }
+
+    private int[][] deepCopy(int[][] original) {
+        if (original == null) {
+            return null;
+        }
+
+        final int[][] result = new int[original.length][];
+        for (int i = 0; i < original.length; i++) {
+            result[i] = Arrays.copyOf(original[i], original[i].length);
+        }
+        return result;
     }
 }

@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import java.awt.event.*;
 
 public class WindowApp extends JFrame implements KeyListener {
@@ -7,11 +9,11 @@ public class WindowApp extends JFrame implements KeyListener {
     private WindowPanel panel;
     private int worldsSize;
 
-    WindowApp(ArrayList<StoreWorlds> worlds) {
+    WindowApp(ArrayList<int[][]> worlds) {
         worldsSize = worlds.size();
         panel = new WindowPanel(worlds);
         addKeyListener(this);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         add(panel);
         pack();
         setTitle("Flood world, USE ARROW KEYS ;) - Case : 0");
@@ -21,16 +23,16 @@ public class WindowApp extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == 39 && panel.w < worldsSize - 1) {
-            panel.w += 1;
+        if (e.getKeyCode() == 39 && panel.page < worldsSize - 1) {
+            panel.page += 1;
             panel.repaint();
-            setTitle("Flood world, USE ARROW KEYS ;) - Case : " + panel.w);
+            setTitle("Flood world, USE ARROW KEYS ;) - Case : " + panel.page);
         }
 
-        if (e.getKeyCode() == 37 && panel.w > 0) {
-            panel.w -= 1;
+        if (e.getKeyCode() == 37 && panel.page > 0) {
+            panel.page -= 1;
             panel.repaint();
-            setTitle("Flood world, USE ARROW KEYS ;) - Case : " + panel.w);
+            setTitle("Flood world, USE ARROW KEYS ;) - Case : " + panel.page);
         }
     }
 
