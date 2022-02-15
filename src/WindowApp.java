@@ -38,9 +38,11 @@ public class WindowApp extends JFrame implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        // document why this method is empty
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        // document why this method is empty
     }
 }

@@ -4,13 +4,7 @@ import java.util.ArrayList;
 
 public class WindowPanel extends JPanel {
     private int size;
-    private int X;
-    private int Y;
-    private int elevation;
-    private Font font;
-    private int fontsize;
     private ArrayList<int[][]> worlds;
-
     public int page = 0;
 
     WindowPanel(ArrayList<int[][]> worlds) {
@@ -20,11 +14,11 @@ public class WindowPanel extends JPanel {
     }
 
     public void paint(Graphics g) {
-        X = getWidth() / size;
-        Y = getHeight() / size;
-
-        fontsize = X / size;
-        font = new Font("Serif", Font.BOLD, fontsize);
+        int X = getWidth() / size;
+        int Y = getHeight() / size;
+        int elevation;
+        int fontsize = X / size;
+        Font font = new Font("Serif", Font.BOLD, fontsize);
         g.setFont(font);
 
         for (int i = 0; i < size; i++) {
